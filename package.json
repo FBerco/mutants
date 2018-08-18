@@ -8,7 +8,8 @@
     "migrations": "node_modules/.bin/sequelize db:migrate"
   },
   "engines": {
-    "node": ">=6"
+    "node": "8.11.3",
+    "npm": "5.6.0"
   },
   "author": "mutants <berco.fede@gmail.com>",
   "dependencies": {
@@ -24,8 +25,10 @@
     "pg-hstore": "^2.3.2",
     "pg-structure": "^4.0.1",
     "sequelize": "^4.37.6",
+    "umzug": "^2.1.0",
     "winston": "^2.3.1",
-    "winston-daily-rotate-file": "^3.1.3"
+    "winston-daily-rotate-file": "^3.1.3",
+    "sequelize-cli": "^4.0.0"
   },
   "devDependencies": {
     "sequelize-cli": "^4.0.0",

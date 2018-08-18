@@ -18,6 +18,7 @@ module.exports = {
     logging: false
   },
   production: {
+    use_env_variable: 'DATABASE_URL',
     username: config.username,
     password: config.password,
     database: config.name,
