@@ -20,9 +20,6 @@ class DnaFacade extends Facade {
         }
       }
       count += (word.join().match(this.pattern) || []).length;
-      if (count > 1) {
-        return count;
-      }
     }
     return count;
   }
@@ -35,11 +32,12 @@ class DnaFacade extends Facade {
     //horizontal
     for (let i = 0; i < n - 1; i++) {
       count += (dna[i].match(this.pattern) || []).length;
-      if (count > 1) {
-        return true;
-      }
     }
 
+    if (count > 1) {
+      return true;
+    }
+    
     //vertical
     for (let j = 0; j < n - 1; j++) {
       let word = "";
@@ -47,9 +45,10 @@ class DnaFacade extends Facade {
         word += dna[i][j];
       }
       count += (word.match(this.pattern) || []).length
-      if (count > 1) {
-        return true;
-      }
+    }
+
+    if (count > 1) {
+      return true;
     }
 
     //I'm analyzing the diagonals to the right    
@@ -68,16 +67,17 @@ class DnaFacade extends Facade {
 
   getStats() {
     return sequelize.query(`
-        SELECT count(*) as "count_human_dna", 
-        (
-          SELECT count(*) FROM dna WHERE is_mutant=true
-        ) as "count_mutant_dna",
-        round((
-          cast((SELECT count(*) FROM dna WHERE is_mutant=true) as decimal) / (SELECT count(*) from dna)
-        ),2) as "ratio"
-        FROM dna;
-        `)
+      SELECT count(*) as "count_human_dna", 
+      (
+        SELECT count(*) FROM dna WHERE is_mutant=true
+      ) as "count_mutant_dna" 
+      FROM dna;`)
       .spread(results => {
+        if (results[0].count_human_dna == 0) return 'No humans in database';
+        const ratio = results[0].count_mutant_dna / results[0].count_human_dna
+        Object.assign(results[0], {
+          ratio: Math.round(ratio * 100) / 100
+        });
         return results[0];
       });
   }
