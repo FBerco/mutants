@@ -37,4 +37,25 @@ npm start
 
 And then the app runs on `localhost:8080`
 
+
+## Test the API
+
+To run the tests, you will need to add the following line in your `.env` file
+
+```
+NODE_API_DB_NAME_TEST=mutants-test
+```
+
+Then you need to create the test database and run the migrations
+
+```bash
+NODE_ENV=testing node_modules/.bin/sequelize db:create
+NODE_ENV=testing npm run migrations
+```
+And finally,
+
+```bash
+npm run test
+```
+
 --------------------------------------------------------------------------------
